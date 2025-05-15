@@ -8,20 +8,25 @@ const TourList = ({ tours, setTours, onRemove }) => {
     const [error, setError] = useState(false);
 
     //Function to fetch tour data from the API
-    const fetchTours = async () => {
-        try {
-            const response = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent('https://course-api.com/react-tours-project'));
-            if (!response.ok) { //Checking response status
-                throw new Error("Failed to fetch tours");
-            }
-            const data = await response.json();
-            setTours(data); //Setting the fetched data to global state
-        } catch (error) {
-            setError(true);
-            console.log(error); //Logging the error to the console
-        } finally {
-            setLoading(false);
-        }
+    const fetchTours = () => {
+        fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent('https://course-api.com/react-tours-project'))
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch tours");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setTours(data); // Setting the fetched data to global state
+                setError(false); // Reset error state if successful
+            })
+            .catch((error) => {
+                setError(true);
+                console.log(error); // Logging the error to the console
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     //Calling the fetch function on component mount
