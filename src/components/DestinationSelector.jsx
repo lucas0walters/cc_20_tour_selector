@@ -8,9 +8,8 @@ const DestinationSelector = ({ tours, onDestinationChange }) => {
         "All Destinations",
         ...new Set(
             tours.map((tour) => {
-                const words = tour.name.split(" "); // Split the name into words
-                return words[2] || ""; // Extract the third word, or an empty string if it doesn't exist
-            }).filter((destination) => destination) // Remove empty strings
+                return tour.name
+            })
         ),
     ];
 
